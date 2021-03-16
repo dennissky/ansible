@@ -1,0 +1,4 @@
+---
+ - name: 关闭selinux
+   selinux: 
+     state: disabled

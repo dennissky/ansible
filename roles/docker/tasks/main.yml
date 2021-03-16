@@ -1,0 +1,33 @@
+---
+ - name: 删除旧版本docker
+   yum:
+     name:
+       - docker
+       - docker-client
+       - docker-client-latest
+       - docker-common
+       - docker-latest
+       - docker-latest-logrotate
+       - docker-logrotate
+       - docker-engine
+     state: removed
+ - name: 配置阿里云docker源
+   get_url:
+     url: http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+     dest: /etc/yum.repos.d/
+ - name: make cache
+   shell: yum makecache fast
+ - name: yum 安装docker-ce
+   yum:
+     name: docker-ce-20.10.3-3.el7
+     state: present
+ - name: copy docker.service
+   copy: 
+     src: /etc/ansible/docker.service
+     dest: /usr/lib/systemd/system/docker.service
+ - name: 启动docker,开机自动启动
+   systemd:
+     name: docker
+     enabled: yes
+     daemon_reload: yes 
+     state: started

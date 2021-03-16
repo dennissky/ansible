@@ -1,0 +1,17 @@
+---
+- hosts: node 
+  gather_facts: no
+  roles:
+    - selinux
+    - ssh_authorized
+    - yum
+    - docker
+    - hostname
+
+- hosts: manager
+  roles:
+    - docker-swarm-init
+
+- hosts: worker
+  roles:
+    - docker-swarm-add-worker

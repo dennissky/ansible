@@ -1,0 +1,36 @@
+---
+ - name: 删除默认repo 
+   file:
+     path: "/etc/yum.repos.d/{{ item }}"
+     state: absent
+   with_items:
+        - CentOS-Base.repo
+        - CentOS-Debuginfo.repo
+        - CentOS-Media.repo
+        - CentOS-Vault.repo
+        - CentOS-CR.repo
+        - CentOS-fasttrack.repo
+        - CentOS-Sources.repo 
+
+ - name: 配置阿里Centos-7.repo epel-7.repo
+   get_url:
+     url: "http://mirrors.aliyun.com/repo/{{ item.url }}"
+     dest: "/etc/yum.repos.d/{{ item.dest }}"
+   with_items:
+     - {url: "Centos-7.repo", dest: "CentOS-7.repo"}
+     - {url: "epel-7.repo", dest: "epel-7.repo"}
+
+ - name: make cache
+   shell: yum makecache fast
+
+ - name: yum 安装wget|telnet|lrzsz|vim|git|curl|tree
+   yum:
+     name:
+       - wget
+       - telnet
+       - lrzsz
+       - vim
+       - git
+       - curl
+       - tree
+     state: present

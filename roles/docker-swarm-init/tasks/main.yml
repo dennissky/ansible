@@ -1,0 +1,25 @@
+---
+ - name: 检查swarm是否已经被初始化 
+   shell: docker node ls
+   register: swarm_status
+   ignore_errors: true
+   tags: swarm
+
+ - name: 初始化leader节点
+   shell: >
+        docker swarm init
+        --advertise-addr={{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:2377
+   when: swarm_status.rc != 0
+   run_once: true
+   tags: swarm
+ - name: 获取manager token
+   shell: docker swarm join-token --quiet manager
+   register: manager_token
+   tags: swarm
+
+ - name: 获取worker token
+   shell: docker swarm join-token --quiet worker
+   register: worker_token
+   tags: swarm
+ 
+
