@@ -1,0 +1,12 @@
+---
+ - name: get uuid
+   shell: blkid -s UUID -o value /dev/vdb1
+   register: disk_blkid
+
+ - name: mount
+   mount:
+    path: /data
+    src: UUID={{ disk_blkid.stdout }}
+    state: mounted
+    fstype: ext4
+    opts: defaults

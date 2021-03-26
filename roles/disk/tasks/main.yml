@@ -1,0 +1,12 @@
+---
+ - name: 磁盘分区
+   parted:
+    device: /dev/vdb
+    number: 1
+    state: present
+    label: gpt
+ - name: 磁盘格式化
+   filesystem:
+    dev: /dev/vdb1
+    fstype: ext4
+    force: yes
