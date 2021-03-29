@@ -1,6 +1,5 @@
 ---
 - hosts: node 
-  gather_facts: no
   roles:
     - selinux
     - ssh_authorized
