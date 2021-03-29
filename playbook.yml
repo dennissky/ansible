@@ -4,13 +4,16 @@
     - selinux
     - ssh_authorized
     - yum
-    - docker
     - hostname
+    - disk
+    - mount
 
 - hosts: manager
   roles:
+    - docker
     - docker-swarm-init
 
 - hosts: worker
   roles:
+    - docker
     - docker-swarm-add-worker
