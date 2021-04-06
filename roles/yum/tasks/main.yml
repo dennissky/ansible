@@ -23,7 +23,7 @@
  - name: make cache
    shell: yum makecache fast
 
- - name: yum 安装wget|telnet|lrzsz|vim|git|curl|tree
+ - name: yum 安装wget|telnet|lrzsz|vim|git|curl|tree|nc
    yum:
      name:
        - wget
@@ -33,4 +33,5 @@
        - git
        - curl
        - tree
+       - nc
      state: present
